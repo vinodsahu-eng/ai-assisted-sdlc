@@ -1,5 +1,3 @@
-# ai-assisted-sdlc
-
 # AI-Assisted SDLC: Guardrails Before Coding Agents
 
 This repository contains a **practical prompt sequence** for using AI coding agents responsibly in real software projects.
