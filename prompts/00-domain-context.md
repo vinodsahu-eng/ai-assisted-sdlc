@@ -1,106 +1,148 @@
-# Phase 0: Requirements & Domain Alignment Review
+# Phase 0: Strategic Domain Framing & Development Governance
 
 ## Role
-Principal Engineer acting as an independent reviewer.
+Principal Architect responsible for domain correctness and long-term maintainability.
 
 ---
 
 ## Objective
 
-Validate that the **Problem Statement** is correctly and completely represented by the existing `docs/DOMAIN_CONTEXT.md`, and identify gaps, ambiguities, and risks **before** PRD creation.
+Create the **authoritative domain definition** for the system described in the provided Problem Statement.
 
-This phase exists to prevent:
-- Silent assumptions
-- Domain drift
-- Requirements leaking into design or code
+The output, `docs/DOMAIN_CONTEXT.md`, will serve as the **single source of truth** for:
+- Domain language
+- Business invariants
+- System boundaries
+- AI development constraints
 
----
-
-## Inputs (Authoritative)
-
-- `docs/DOMAIN_CONTEXT.md` (authoritative domain definition)
-- The original Problem Statement
-
-No other documents should influence this review.
+This step exists to ensure future PRDs, designs, and code are:
+- Correct by construction
+- Understandable by human engineers
+- Resistant to AI hallucination or logic drift
 
 ---
 
-## Task
+## Instructions for AI Architect
 
-Perform a structured comparison between:
-- What the Problem Statement explicitly requires
-- What `DOMAIN_CONTEXT.md` currently defines
-
-For each major domain flow implied by the problem statement:
-- Identify alignment
-- Identify mismatches
-- Identify omissions
+Analyze the provided Problem Statement and produce `docs/DOMAIN_CONTEXT.md` using the following standards.
 
 ---
 
-## What to Analyze
+### 1. Ubiquitous Language (Glossary)
+**Requirement:** Establish a shared, precise domain language.
 
-Analyze the domain at the level of **business behavior**, including (where applicable):
+**Task:**  
+Identify and define the **core domain concepts** used in the problem statement using:
+- Clear, unambiguous
+- Implementation-neutral
+- Business-meaningful language
 
-- Core entity lifecycle(s)
-- Time-bound rules and expirations
-- Concurrency expectations
-- External dependencies and signals
-- Abuse or misuse prevention
-- Failure and interruption semantics
-
-Do **not** assume all of these exist; analyze only what is relevant to the domain.
+Do not invent concepts not present in the problem statement.
 
 ---
 
-## What to Produce
+### 2. Business Invariants (Non-Negotiable Rules)
+**Requirement:** Identify rules that must **always** hold true.
 
-### 1. Confirmed Alignments
-Areas where the problem statement and `DOMAIN_CONTEXT.md` are consistent and complete.
+**Task:**  
+Extract domain rules that:
+- Are explicitly stated, or
+- Are logically unavoidable for correctness
 
-### 2. Blocking Gaps
-Missing or unclear domain rules that must be resolved before PRD creation.
-
-### 3. Non-Blocking Gaps
-Gaps that can reasonably be deferred to PRD or later phases.
-
-### 4. Contradictions
-Explicit conflicts between the problem statement and `DOMAIN_CONTEXT.md`.
-
-### 5. Risk Areas
-Domain areas where misinterpretation would likely cause incorrect behavior.
-
-### 6. Clarifying Questions
-Precise, decision-forcing questions that must be answered to proceed.
+If a rule is implied but not explicit, list it as an **ambiguity**, not an invariant.
 
 ---
 
-## Classification Rule
+### 3. Domain State & Time Semantics (If Applicable)
+**Requirement:** Capture lifecycle or temporal behavior where it exists.
 
-Every gap, contradiction, or question must be labeled as:
+**Task:**  
+If the problem statement defines:
+- States
+- Lifecycles
+- Expiry rules
+- Time-based constraints
 
-- **BLOCKING** — must be resolved before PRD
-- **NON-BLOCKING** — can be resolved later
+Document them **exactly as specified**.
+
+If no lifecycle is defined, explicitly state that.
+
+---
+
+### 4. Domain Boundaries & External Dependencies
+**Requirement:** Define responsibility boundaries.
+
+**Task:**  
+Clearly state:
+- What this system owns and guarantees
+- What is delegated to or signaled by external systems
+- What this system must never decide
+
+Focus on **business ownership**, not technical integration.
+
+---
+
+### 5. Failure Semantics (Domain-Level)
+**Requirement:** Define the business meaning of failures.
+
+**Task:**  
+Describe how the domain interprets:
+- External dependency failures
+- Interrupted operations
+- Partial or incomplete actions
+
+Avoid technical recovery mechanisms.
+
+---
+
+### 6. Non-Goals
+**Requirement:** Prevent scope creep.
+
+**Task:**  
+Explicitly list problems or responsibilities that this system does **not** attempt to solve.
+
+---
+
+### 7. Ambiguities & Open Questions
+**Requirement:** Surface uncertainty early.
+
+**Task:**  
+List:
+- Underspecified behaviors
+- Conflicting requirements
+- Missing rules
+
+Do not resolve them here.
+
+---
+
+### 8. AI Development Governance (Mandatory)
+Add a section defining the following rules:
+
+- AI must not invent domain rules
+- AI must not bypass DOMAIN_CONTEXT.md
+- Conflicts must be surfaced, not silently resolved
+- Code generation is forbidden until PRD approval
 
 ---
 
 ## Constraints (Strict)
 
-- Do NOT propose solutions.
-- Do NOT invent domain rules.
-- Do NOT suggest architecture, patterns, or technologies.
-- Do NOT modify `DOMAIN_CONTEXT.md` directly.
-- Do NOT make product decisions.
+- Do NOT design architecture.
+- Do NOT propose data models.
+- Do NOT reference specific technologies.
+- Do NOT write requirements or user stories.
+- Do NOT optimize for performance.
 
-This is a **review**, not a design activity.
+This document defines **domain meaning**, not **implementation**.
 
 ---
 
-## Output Format
+## Output Requirements
 
-- Clear section headers
-- Bullet points only
-- Concise, domain-focused language
+- Clear Markdown structure
+- Declarative, precise language
+- Suitable for long-term human maintenance
 
 ---
 
